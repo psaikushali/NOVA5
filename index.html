@@ -116,9 +116,39 @@ let inv=[["Amul Taaza Milk","High","19 searches + stale inventory","3h ago"],["E
 let selectedCategory="All";
 function toast(x){let t=document.getElementById("toast");t.textContent=x;t.style.display="block";clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display="none",2600)}
 function render(list=products){
-document.getElementById("products").innerHTML=list.map((p,i)=>`<article class="card product"><h3>${p.name}</h3><div class="meta">${p.category} · ${p.size} · ${p.store}</div><p class="price">₹${p.price}</p><span class="badge good">${p.c}% availability</span> <span class="badge ${p.c>=90?'good':'warn'}">${p.eta}</span><div class="reason"><b>Why:</b> ${p.why}<br><span class="meta">Stock verified ${p.stock}</span></div><button class="primary" style="width:100%" onclick="order(${products.indexOf(p)})">Choose reliable option</button></article>`).join("");
-document.getElementById("inventory").innerHTML=inv.map((r,i)=>`<tr><td><b>${r[0]}</b></td><td><span class="badge ${r[1]=='High'?'bad':r[1]=='Medium'?'warn':'good'}">${r[1]}</span></td><td>${r[2]}</td><td>${r[3]}</td><td><button class="secondary" onclick="update(${i})">Update</button></td></tr>`).join("");
-document.getElementById("summary").textContent=`Showing ${list.length} reliable product${list.length===1?'':'s'}${selectedCategory==='All'?'':' in '+selectedCategory}`;
+  document.getElementById("products").innerHTML=list.map(p=>{
+    const index=products.indexOf(p);
+
+    return `<article class="card product">
+      <h3>${p.name}</h3>
+      <div class="meta">${p.category} · ${p.size} · ${p.store}</div>
+      <p class="price">₹${p.price}</p>
+      <span class="badge good">${p.c}% availability</span>
+      <span class="badge ${p.c>=90?'good':'warn'}">${p.eta}</span>
+      <div class="reason">
+        <b>Why:</b> ${p.why}<br>
+        <span class="meta">Stock verified ${p.stock}</span>
+      </div>
+      <button class="primary" style="width:100%" onclick="order(${index})">
+        Choose reliable option
+      </button>
+    </article>`;
+  }).join("");
+
+  document.getElementById("summary").textContent=
+    `Showing ${list.length} reliable product${list.length===1?'':'s'}${selectedCategory==='All'?'':' in '+selectedCategory}`;
+}
+
+function renderInventory(){
+  document.getElementById("inventory").innerHTML=inv.map((r,i)=>
+    `<tr>
+      <td><b>${r[0]}</b></td>
+      <td><span class="badge ${r[1]=='High'?'bad':r[1]=='Medium'?'warn':'good'}">${r[1]}</span></td>
+      <td>${r[2]}</td>
+      <td>${r[3]}</td>
+      <td><button class="secondary" onclick="update(${i})">Update</button></td>
+    </tr>`
+  ).join("");
 }
 function getMatches(q){
   const lower = q.toLowerCase();
@@ -175,5 +205,6 @@ function scan(){document.getElementById("scan").textContent="Priorities refreshe
 function update(i){inv[i][1]="Low";inv[i][2]="Verified by store";inv[i][3]="Just now";document.getElementById("accuracy").textContent="86%";render();toast(inv[i][0]+" marked as verified.")}
 function openModal(t,b){document.getElementById("mtitle").textContent=t;document.getElementById("mbody").innerHTML=b;document.getElementById("modalbg").style.display="flex"}function closeModal(){document.getElementById("modalbg").style.display="none"}
 render();
+renderInventory();
 </script>
 </body></html>
