@@ -151,7 +151,7 @@ function renderInventory(){
   ).join("");
 }
 function getMatches(q){
-  const lower = q.toLowerCase();
+  const lower = String(q || "").toLowerCase().trim().slice(0,100);
 
   const budgetMatch = lower.match(
     /(?:under|below|less than|upto|up to)\s*₹?\s*(\d+)/i
@@ -186,7 +186,7 @@ function getMatches(q){
   return filtered;
 }  
 function search(){
-const q=document.getElementById("q").value.trim();
+const q=document.getElementById("q").value.trim().slice(0,100);
 const filtered=getMatches(q);
 document.getElementById("summary").textContent=q?`Decision for: “${q}” · ${filtered.length} match${filtered.length===1?'':'es'}`:`Showing ${filtered.length} reliable products`;
 render(filtered);
