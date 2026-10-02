@@ -121,16 +121,40 @@ document.getElementById("inventory").innerHTML=inv.map((r,i)=>`<tr><td><b>${r[0]
 document.getElementById("summary").textContent=`Showing ${list.length} reliable product${list.length===1?'':'s'}${selectedCategory==='All'?'':' in '+selectedCategory}`;
 }
 function getMatches(q){
-const lower=q.toLowerCase();
-const budgetMatch=lower.match(/(?:under|below|less than|upto|up to)\s*₹?\s*(\d+)/i);
-const budget=budgetMatch?Number(budgetMatch[1]):null;
-let base=selectedCategory==='All'?products:products.filter(p=>p.category===selectedCategory);
-const terms=base.filter(p=>p.tags.some(tag=>lower.includes(tag)));
-let filtered=terms.length?terms:base;
-if(budget!==null) filtered=filtered.filter(p=>p.price<=budget);
-if(!filtered.length && budget!==null) filtered=base.filter(p=>p.price<=budget);
-return filtered;
-}
+  const lower = q.toLowerCase();
+
+  const budgetMatch = lower.match(
+    /(?:under|below|less than|upto|up to)\s*₹?\s*(\d+)/i
+  );
+  const budget = budgetMatch ? Number(budgetMatch[1]) : null;
+
+  let base = selectedCategory === "All"
+    ? products
+    : products.filter(p => p.category === selectedCategory);
+
+  const terms = base.filter(p =>
+    p.tags.some(tag => lower.includes(tag))
+  );
+
+  let filtered = terms.length ? terms : base;
+
+  if (budget !== null) {
+    filtered = filtered.filter(p => p.price <= budget);
+  }
+
+  if (!filtered.length && budget !== null) {
+    filtered = base.filter(p => p.price <= budget);
+  }
+
+  filtered.sort((a, b) => {
+    const freshnessA = parseInt(a.stock) || 9999;
+    const freshnessB = parseInt(b.stock) || 9999;
+
+    return (b.c - a.c) || (freshnessA - freshnessB);
+  });
+
+  return filtered;
+}  
 function search(){
 const q=document.getElementById("q").value.trim();
 const filtered=getMatches(q);
