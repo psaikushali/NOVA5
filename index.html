@@ -114,7 +114,41 @@ const products=[
 ];
 let inv=[["Amul Taaza Milk","High","19 searches + stale inventory","3h ago"],["Eggs 10-pack","High","8 failed availability attempts","2h ago"],["Bread","Medium","Update overdue","Yesterday"],["Tomatoes","Medium","Demand rising + stale stock","4h ago"],["Shampoo","Low","Recently verified","21 min ago"]];
 let selectedCategory="All";
+  function view(name, button){
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  button.classList.add("active");
+
+  if(name === "customer"){
+    document.getElementById("customer").classList.remove("hidden");
+    document.getElementById("store").classList.add("hidden");
+    document.getElementById("impact").classList.add("hidden");
+  }
+
+  if(name === "store"){
+    document.getElementById("customer").classList.add("hidden");
+    document.getElementById("store").classList.remove("hidden");
+    document.getElementById("impact").classList.add("hidden");
+  }
+
+  if(name === "impact"){
+    document.getElementById("customer").classList.add("hidden");
+    document.getElementById("store").classList.add("hidden");
+    document.getElementById("impact").classList.remove("hidden");
+  }
+}
 function toast(x){let t=document.getElementById("toast");t.textContent=x;t.style.display="block";clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display="none",2600)}
+  function view(name, button){
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  button.classList.add("active");
+
+  document.querySelectorAll("[data-view]").forEach(section => {
+    section.classList.add("hidden");
+  });
+
+  const target = document.querySelector(`[data-view="${name}"]`);
+  if(target) target.classList.remove("hidden");
+}
+
 function render(list=products){
   document.getElementById("products").innerHTML=list.map(p=>{
     const index=products.indexOf(p);
