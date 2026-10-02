@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA5 — Reliable Local Commerce</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#152033;--muted:#64748b;--line:#e2e8f0;--p:#3157d5;--pb:#eef2ff;--good:#0f8a5f;--gb:#e9f8f1;--warn:#a66300;--wb:#fff5df;--bad:#b42318;--bb:#fff0ee}
+*{box-sizing:border-box}body{margin:0;font:15px system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}button,input{font:inherit}button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:#fffffff2;border-bottom:1px solid var(--line)}nav{max-width:1150px;margin:auto;padding:13px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:21px;font-weight:900}.logo{display:inline-grid;place-items:center;background:var(--p);color:white;border-radius:10px;width:36px;height:36px;margin-right:8px}
+.tabs{display:flex;gap:7px;flex-wrap:wrap}.tab,.secondary{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;font-weight:700}.tab.active{background:var(--pb);color:var(--p);border-color:#cbd5ff}
+main{max-width:1150px;margin:auto;padding:25px 18px 50px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 25px #0f172a0d}.hero-card{padding:28px}.pill,.badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:800}.pill{background:var(--pb);color:var(--p)}.good{background:var(--gb);color:var(--good)}.warn{background:var(--wb);color:var(--warn)}.bad{background:var(--bb);color:var(--bad)}
+h1{font-size:clamp(31px,5vw,52px);line-height:1.04;margin:15px 0}h2{margin:0 0 5px}.muted{color:var(--muted);line-height:1.55}.search{display:flex;gap:9px;margin-top:20px}.search input{flex:1;padding:13px;border:1px solid var(--line);border-radius:11px}.primary{border:0;background:var(--p);color:white;border-radius:11px;padding:12px 15px;font-weight:800}.score{text-align:center;display:flex;flex-direction:column;justify-content:center}.ring{width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--good) 0 94%,#e7edf4 94%);display:grid;place-items:center;margin:15px auto}.ring div{width:92px;height:92px;border-radius:50%;background:white;display:grid;place-items:center;font-size:28px;font-weight:900}
+.section{margin-top:20px}.head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:11px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.product,.panel{padding:18px}.product h3{margin:0 0 4px}.price{font-size:20px;font-weight:900}.meta{color:var(--muted);font-size:13px}.reason{background:#f8fafc;border-radius:11px;padding:10px;margin:12px 0;font-size:13px;line-height:1.5}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}.kpi{padding:16px}.kpi b{display:block;font-size:25px;margin:5px 0}.row{display:flex;justify-content:space-between;gap:15px;padding:14px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.row p{margin:3px 0;color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-size:11px;text-transform:uppercase}.scroll{overflow:auto}
+.hidden{display:none!important}.toast{position:fixed;right:18px;bottom:18px;background:#152033;color:white;padding:12px 15px;border-radius:11px;display:none;z-index:20}.modalbg{position:fixed;inset:0;background:#0f172a88;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}.modal{background:white;max-width:500px;width:100%;padding:22px;border-radius:17px}.close{float:right;border:0;background:#f1f5f9;border-radius:8px;padding:5px 9px}
+footer{max-width:1150px;margin:auto;padding:0 18px 30px;color:var(--muted);font-size:12px}
+:focus-visible{outline:3px solid #9db0ff;outline-offset:2px}@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}}@media(max-width:540px){.grid,.kpis{grid-template-columns:1fr}.search{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><nav><div class="brand"><span class="logo">N5</span>NOVA5</div><div class="tabs">
+<button class="tab active" onclick="view('customer',this)">Customer</button><button class="tab" onclick="view('store',this)">Store</button><button class="tab" onclick="view('impact',this)">Impact</button>
+</div></nav></header>
+
+<main>
+<section id="customer">
+<div class="hero">
+<div class="card hero-card"><span class="pill">RELIABILITY-FIRST LOCAL COMMERCE</span>
+<h1>Know it's available.<br>Know when it arrives.</h1>
+<p class="muted">NOVA5 combines inventory freshness, store reliability and delivery signals to recommend the most dependable local option.</p>
+<div class="search"><input id="q" value="I need milk for breakfast under ₹50" aria-label="Shopping request"><button class="primary" onclick="search()">Find reliably</button></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px" aria-label="Product categories"><button class="tab active" data-cat="All" onclick="setCategory('All',this)">All</button><button class="tab" data-cat="Dairy & Eggs" onclick="setCategory('Dairy & Eggs',this)">Dairy & Eggs</button><button class="tab" data-cat="Bakery" onclick="setCategory('Bakery',this)">Bakery</button><button class="tab" data-cat="Staples" onclick="setCategory('Staples',this)">Staples</button><button class="tab" data-cat="Fruits & Vegetables" onclick="setCategory('Fruits & Vegetables',this)">Fruits & Vegetables</button><button class="tab" data-cat="Snacks" onclick="setCategory('Snacks',this)">Snacks</button><button class="tab" data-cat="Personal Care" onclick="setCategory('Personal Care',this)">Personal Care</button><button class="tab" data-cat="Household" onclick="setCategory('Household',this)">Household</button></div>
+</div>
+<div class="card hero-card score"><span class="pill">NOVA5 RELIABILITY SCORE</span><div class="ring"><div>94%</div></div><strong>High confidence</strong><p class="muted">Fresh stock + reliable store + fast ETA</p><button class="secondary" onclick="explain()">Why this score?</button></div>
+</div>
+
+<section class="section"><div class="head"><div><h2>Reliable matches</h2><span id="summary" class="muted">For your breakfast request</span></div><span class="badge good">Decision demo</span></div><div id="products" class="grid"></div></section>
+
+<section class="section card panel"><h2>Your retention journey</h2>
+<div class="row"><div><b>First order</b><p>Show free-delivery eligibility clearly before checkout.</p></div><span class="badge good">VALUE</span></div>
+<div class="row"><div><b>Second order</b><p>Send a simple contextual offer with automatic application.</p></div><span class="badge warn">SMART OFFER</span></div>
+<div class="row"><div><b>Third successful order</b><p>Unlock a small local discovery reward.</p></div><span class="badge good">RETENTION</span></div>
+</section>
+</section>
+
+<section id="store" class="hidden">
+<div class="hero"><div class="card hero-card"><span class="pill">PARTNER ASSISTANT</span><h1>Update what matters first.</h1><p class="muted">NOVA5 prioritizes risky inventory instead of forcing stores to maintain every product equally.</p><button class="primary" onclick="scan()">Run priority scan</button></div>
+<div class="card hero-card"><span class="pill">PARTNER HEALTH</span><h2 style="margin-top:18px" id="accuracy">81%</h2><p class="muted">Online availability accuracy · target 93%+</p></div></div>
+<section class="section card panel"><div class="head"><div><h2>Priority inventory queue</h2><span class="muted">Customer demand + failed orders + freshness</span></div><span id="scan" class="badge warn">Needs update</span></div><div class="scroll"><table><thead><tr><th>Product</th><th>Risk</th><th>Reason</th><th>Last update</th><th>Action</th></tr></thead><tbody id="inventory"></tbody></table></div></section>
+</section>
+
+<section id="impact" class="hidden">
+<div class="hero"><div class="card hero-card"><span class="pill">BUSINESS IMPACT</span><h1>Improve the quality of growth.</h1><p class="muted">Fix reliability first; use promotions only where they remove a measurable friction.</p></div><div class="card hero-card"><h2>Five NOVA5 pillars</h2><p class="muted">Availability · Speed · Accuracy · Value · Retention</p></div></div>
+<div class="section kpis"><div class="card kpi"><span class="muted">Repeat purchase</span><b>27%</b><span class="muted">Case metric</span></div><div class="card kpi"><span class="muted">Cancellation</span><b>11%</b><span class="muted">Case metric</span></div><div class="card kpi"><span class="muted">Delivery</span><b>37 min</b><span class="muted">Case metric</span></div><div class="card kpi"><span class="muted">Support tickets</span><b>5,900</b><span class="muted">Monthly metric</span></div></div>
+<section class="section card panel"><div class="row"><div><b>1. Availability</b><p>Fresh inventory signals reduce unavailable-product failures.</p></div><span class="badge good">CORE</span></div><div class="row"><div><b>2. Speed</b><p>Select fulfilment using ETA, distance and store workload.</p></div><span class="badge good">CORE</span></div><div class="row"><div><b>3. Accuracy</b><p>Explain inventory freshness, ETA, tracking and offer rules.</p></div><span class="badge good">CORE</span></div><div class="row"><div><b>4. Value</b><p>Use targeted delivery rewards instead of blanket discounts.</p></div><span class="badge warn">CONTROLLED</span></div><div class="row"><div><b>5. Retention</b><p>Guide customers toward successful second and third orders.</p></div><span class="badge good">OUTCOME</span></div></section>
+</section>
+</main>
+<footer>NOVA5 prototype · Synthetic demo data · No real payments or orders are processed.</footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="modalbg" class="modalbg"><div class="modal" role="dialog" aria-modal="true"><button class="close" onclick="closeModal()">×</button><h2 id="mtitle"></h2><div id="mbody"></div></div></div>
+
+<script>
+const products=[
+{name:"Amul Taaza Milk",category:"Dairy & Eggs",tags:["milk","dairy"],size:"500 ml",price:31,c:94,stock:"8 min ago",eta:"22–29 min",store:"Local Store #18",why:"Recently verified stock + nearby store + strong order acceptance."},
+{name:"Heritage Milk",category:"Dairy & Eggs",tags:["milk","dairy"],size:"500 ml",price:30,c:88,stock:"22 min ago",eta:"24–32 min",store:"Local Store #07",why:"Good availability signal; inventory update is slightly older."},
+{name:"Amul Gold Milk",category:"Dairy & Eggs",tags:["milk","dairy"],size:"500 ml",price:34,c:82,stock:"41 min ago",eta:"28–36 min",store:"Local Store #23",why:"Available, but lower confidence because stock is less fresh."},
+{name:"Fresh Curd",category:"Dairy & Eggs",tags:["curd","yogurt","dairy"],size:"400 g",price:42,c:93,stock:"11 min ago",eta:"21–28 min",store:"Local Store #12",why:"Fresh stock signal and reliable local fulfilment."},
+{name:"Paneer",category:"Dairy & Eggs",tags:["paneer","dairy"],size:"200 g",price:85,c:90,stock:"17 min ago",eta:"23–30 min",store:"Local Store #08",why:"Recently checked stock with dependable store acceptance."},
+{name:"Butter",category:"Dairy & Eggs",tags:["butter","dairy"],size:"100 g",price:58,c:91,stock:"9 min ago",eta:"20–27 min",store:"Local Store #15",why:"Fresh inventory signal and short delivery ETA."},
+{name:"Cheese Slices",category:"Dairy & Eggs",tags:["cheese","dairy"],size:"200 g",price:115,c:87,stock:"26 min ago",eta:"25–33 min",store:"Local Store #21",why:"Good confidence with recently refreshed inventory."},
+{name:"Farm Fresh Eggs",category:"Dairy & Eggs",tags:["egg","eggs"],size:"10 eggs",price:62,c:91,stock:"6 min ago",eta:"20–27 min",store:"Local Store #11",why:"Recently verified stock + nearby store + strong order acceptance."},
+{name:"Brown Eggs",category:"Dairy & Eggs",tags:["egg","eggs"],size:"6 eggs",price:48,c:89,stock:"13 min ago",eta:"22–29 min",store:"Local Store #14",why:"Fresh availability signal with a reliable nearby store."},
+{name:"Daily Bread",category:"Bakery",tags:["bread","bakery"],size:"400 g",price:35,c:89,stock:"14 min ago",eta:"21–28 min",store:"Local Store #05",why:"Fresh inventory signal with a nearby fulfilment store."},
+{name:"Whole Wheat Bread",category:"Bakery",tags:["bread","bakery","wheat"],size:"400 g",price:48,c:92,stock:"10 min ago",eta:"21–27 min",store:"Local Store #06",why:"Recently verified stock and strong store acceptance."},
+{name:"Burger Buns",category:"Bakery",tags:["bun","buns","bakery"],size:"6 pieces",price:45,c:84,stock:"32 min ago",eta:"26–34 min",store:"Local Store #19",why:"Available with moderate inventory freshness."},
+{name:"Butter Biscuits",category:"Bakery",tags:["biscuit","biscuits","bakery"],size:"120 g",price:25,c:86,stock:"12 min ago",eta:"23–30 min",store:"Local Store #09",why:"Recently verified stock and reliable store acceptance."},
+{name:"Cream Biscuits",category:"Bakery",tags:["biscuit","biscuits","bakery"],size:"100 g",price:20,c:90,stock:"8 min ago",eta:"21–28 min",store:"Local Store #04",why:"Fresh stock and nearby fulfilment option."},
+{name:"Rusk",category:"Bakery",tags:["rusk","bakery"],size:"200 g",price:42,c:88,stock:"19 min ago",eta:"24–31 min",store:"Local Store #17",why:"Good confidence from recent inventory verification."},
+{name:"Basmati Rice",category:"Staples",tags:["rice","basmati","staples"],size:"1 kg",price:115,c:93,stock:"15 min ago",eta:"24–31 min",store:"Local Store #03",why:"High availability confidence and reliable store."},
+{name:"Sona Masoori Rice",category:"Staples",tags:["rice","staples"],size:"1 kg",price:72,c:95,stock:"7 min ago",eta:"21–28 min",store:"Local Store #10",why:"Very fresh stock signal and strong fulfilment reliability."},
+{name:"Wheat Atta",category:"Staples",tags:["atta","flour","wheat","staples"],size:"5 kg",price:285,c:90,stock:"18 min ago",eta:"25–34 min",store:"Local Store #16",why:"Recently refreshed inventory with dependable store acceptance."},
+{name:"Toor Dal",category:"Staples",tags:["dal","toor dal","lentils","staples"],size:"1 kg",price:155,c:88,stock:"29 min ago",eta:"27–35 min",store:"Local Store #20",why:"Good stock confidence; update is moderately fresh."},
+{name:"Moong Dal",category:"Staples",tags:["dal","moong dal","lentils","staples"],size:"500 g",price:82,c:92,stock:"13 min ago",eta:"23–30 min",store:"Local Store #13",why:"Fresh inventory signal and stable fulfilment."},
+{name:"Sugar",category:"Staples",tags:["sugar","staples"],size:"1 kg",price:52,c:96,stock:"5 min ago",eta:"20–26 min",store:"Local Store #02",why:"Very fresh stock and high store acceptance."},
+{name:"Iodized Salt",category:"Staples",tags:["salt","staples"],size:"1 kg",price:24,c:97,stock:"4 min ago",eta:"20–26 min",store:"Local Store #02",why:"Recently verified and consistently stocked."},
+{name:"Sunflower Oil",category:"Staples",tags:["oil","cooking oil","staples"],size:"1 L",price:145,c:91,stock:"16 min ago",eta:"24–32 min",store:"Local Store #18",why:"Fresh inventory signal with reliable fulfilment."},
+{name:"Tea Powder",category:"Beverages",tags:["tea","beverages"],size:"250 g",price:125,c:89,stock:"20 min ago",eta:"25–32 min",store:"Local Store #07",why:"Good availability and predictable ETA."},
+{name:"Instant Coffee",category:"Beverages",tags:["coffee","beverages"],size:"100 g",price:175,c:90,stock:"14 min ago",eta:"23–30 min",store:"Local Store #12",why:"Fresh inventory and reliable nearby store."},
+{name:"Orange Juice",category:"Beverages",tags:["juice","orange","beverages"],size:"1 L",price:110,c:85,stock:"33 min ago",eta:"28–36 min",store:"Local Store #22",why:"Available, but freshness signal is older than top matches."},
+{name:"Lemon Drink",category:"Beverages",tags:["drink","beverage","beverages"],size:"750 ml",price:45,c:92,stock:"9 min ago",eta:"21–28 min",store:"Local Store #05",why:"Fresh stock with reliable local fulfilment."},
+{name:"Mineral Water",category:"Beverages",tags:["water","beverages"],size:"1 L",price:20,c:98,stock:"3 min ago",eta:"19–25 min",store:"Local Store #01",why:"Very fresh stock and fastest reliable ETA."},
+{name:"Bananas",category:"Fruits & Vegetables",tags:["banana","bananas","fruit","fruits"],size:"1 kg",price:55,c:94,stock:"7 min ago",eta:"21–28 min",store:"Local Store #06",why:"Fresh produce availability verified recently."},
+{name:"Apples",category:"Fruits & Vegetables",tags:["apple","apples","fruit","fruits"],size:"1 kg",price:160,c:87,stock:"25 min ago",eta:"25–33 min",store:"Local Store #15",why:"Good availability with moderate inventory freshness."},
+{name:"Tomatoes",category:"Fruits & Vegetables",tags:["tomato","tomatoes","vegetable","vegetables"],size:"1 kg",price:48,c:93,stock:"12 min ago",eta:"22–29 min",store:"Local Store #08",why:"Recently checked produce stock and reliable store."},
+{name:"Onions",category:"Fruits & Vegetables",tags:["onion","onions","vegetable","vegetables"],size:"1 kg",price:42,c:96,stock:"6 min ago",eta:"20–27 min",store:"Local Store #03",why:"Fresh inventory and high store acceptance."},
+{name:"Potatoes",category:"Fruits & Vegetables",tags:["potato","potatoes","vegetable","vegetables"],size:"1 kg",price:38,c:95,stock:"8 min ago",eta:"21–28 min",store:"Local Store #10",why:"Fresh stock signal with predictable fulfilment."},
+{name:"Carrots",category:"Fruits & Vegetables",tags:["carrot","carrots","vegetable","vegetables"],size:"500 g",price:32,c:90,stock:"18 min ago",eta:"23–30 min",store:"Local Store #17",why:"Recently refreshed produce inventory."},
+{name:"Potato Chips",category:"Snacks",tags:["chips","snacks","snack"],size:"100 g",price:40,c:91,stock:"10 min ago",eta:"22–29 min",store:"Local Store #04",why:"Fresh stock and reliable store acceptance."},
+{name:"Namkeen Mix",category:"Snacks",tags:["namkeen","snacks","snack"],size:"200 g",price:65,c:88,stock:"23 min ago",eta:"25–32 min",store:"Local Store #09",why:"Good confidence with recent inventory update."},
+{name:"Milk Chocolate",category:"Snacks",tags:["chocolate","snacks","snack"],size:"100 g",price:85,c:93,stock:"11 min ago",eta:"21–28 min",store:"Local Store #21",why:"Fresh inventory and reliable fulfilment."},
+{name:"Toothpaste",category:"Personal Care",tags:["toothpaste","personal care","care"],size:"150 g",price:95,c:96,stock:"5 min ago",eta:"20–27 min",store:"Local Store #14",why:"Fresh stock and high store reliability."},
+{name:"Bath Soap",category:"Personal Care",tags:["soap","bath soap","personal care","care"],size:"4 bars",price:120,c:92,stock:"13 min ago",eta:"22–29 min",store:"Local Store #11",why:"Recently verified inventory and reliable store."},
+{name:"Shampoo",category:"Personal Care",tags:["shampoo","personal care","care"],size:"340 ml",price:210,c:89,stock:"21 min ago",eta:"24–32 min",store:"Local Store #18",why:"Good availability with a moderate freshness signal."},
+{name:"Face Wash",category:"Personal Care",tags:["face wash","skincare","personal care","care"],size:"100 ml",price:185,c:86,stock:"31 min ago",eta:"27–35 min",store:"Local Store #23",why:"Available, but inventory was refreshed less recently."},
+{name:"Laundry Detergent",category:"Household",tags:["detergent","laundry","household","cleaning"],size:"1 kg",price:145,c:93,stock:"14 min ago",eta:"23–30 min",store:"Local Store #07",why:"Fresh inventory signal and dependable fulfilment."},
+{name:"Dishwash Liquid",category:"Household",tags:["dishwash","cleaning","household"],size:"500 ml",price:85,c:91,stock:"16 min ago",eta:"23–30 min",store:"Local Store #19",why:"Recently verified stock and reliable store acceptance."},
+{name:"Floor Cleaner",category:"Household",tags:["floor cleaner","cleaner","cleaning","household"],size:"1 L",price:125,c:88,stock:"27 min ago",eta:"26–34 min",store:"Local Store #20",why:"Good availability with moderately fresh inventory."},
+{name:"Tissues",category:"Household",tags:["tissue","tissues","household"],size:"100 pulls",price:75,c:94,stock:"9 min ago",eta:"21–28 min",store:"Local Store #13",why:"Fresh stock and reliable local fulfilment."},
+{name:"Baby Wipes",category:"Baby Care",tags:["baby wipes","wipes","baby"],size:"72 wipes",price:160,c:90,stock:"18 min ago",eta:"24–31 min",store:"Local Store #16",why:"Recently checked inventory with reliable store."},
+{name:"Baby Diapers",category:"Baby Care",tags:["diaper","diapers","baby"],size:"20 pieces",price:399,c:87,stock:"24 min ago",eta:"27–35 min",store:"Local Store #22",why:"Good availability but a slightly older stock signal."},
+{name:"Dog Food",category:"Pet Care",tags:["dog food","pet food","dog","pet"],size:"1 kg",price:240,c:92,stock:"15 min ago",eta:"24–31 min",store:"Local Store #05",why:"Fresh inventory and reliable nearby fulfilment."},
+{name:"Cat Food",category:"Pet Care",tags:["cat food","pet food","cat","pet"],size:"1 kg",price:260,c:89,stock:"28 min ago",eta:"27–35 min",store:"Local Store #12",why:"Available with moderate inventory freshness."}
+];
+let inv=[["Amul Taaza Milk","High","19 searches + stale inventory","3h ago"],["Eggs 10-pack","High","8 failed availability attempts","2h ago"],["Bread","Medium","Update overdue","Yesterday"],["Tomatoes","Medium","Demand rising + stale stock","4h ago"],["Shampoo","Low","Recently verified","21 min ago"]];
+let selectedCategory="All";
+function toast(x){let t=document.getElementById("toast");t.textContent=x;t.style.display="block";clearTimeout(window.tt);window.tt=setTimeout(()=>t.style.display="none",2600)}
+function render(list=products){
+document.getElementById("products").innerHTML=list.map((p,i)=>`<article class="card product"><h3>${p.name}</h3><div class="meta">${p.category} · ${p.size} · ${p.store}</div><p class="price">₹${p.price}</p><span class="badge good">${p.c}% availability</span> <span class="badge ${p.c>=90?'good':'warn'}">${p.eta}</span><div class="reason"><b>Why:</b> ${p.why}<br><span class="meta">Stock verified ${p.stock}</span></div><button class="primary" style="width:100%" onclick="order(${products.indexOf(p)})">Choose reliable option</button></article>`).join("");
+document.getElementById("inventory").innerHTML=inv.map((r,i)=>`<tr><td><b>${r[0]}</b></td><td><span class="badge ${r[1]=='High'?'bad':r[1]=='Medium'?'warn':'good'}">${r[1]}</span></td><td>${r[2]}</td><td>${r[3]}</td><td><button class="secondary" onclick="update(${i})">Update</button></td></tr>`).join("");
+document.getElementById("summary").textContent=`Showing ${list.length} reliable product${list.length===1?'':'s'}${selectedCategory==='All'?'':' in '+selectedCategory}`;
+}
+function getMatches(q){
+const lower=q.toLowerCase();
+const budgetMatch=lower.match(/(?:under|below|less than|upto|up to)\s*₹?\s*(\d+)/i);
+const budget=budgetMatch?Number(budgetMatch[1]):null;
+let base=selectedCategory==='All'?products:products.filter(p=>p.category===selectedCategory);
+const terms=base.filter(p=>p.tags.some(tag=>lower.includes(tag)));
+let filtered=terms.length?terms:base;
+if(budget!==null) filtered=filtered.filter(p=>p.price<=budget);
+if(!filtered.length && budget!==null) filtered=base.filter(p=>p.price<=budget);
+return filtered;
+}
+function search(){
+const q=document.getElementById("q").value.trim();
+const filtered=getMatches(q);
+document.getElementById("summary").textContent=q?`Decision for: “${q}” · ${filtered.length} match${filtered.length===1?'':'es'}`:`Showing ${filtered.length} reliable products`;
+render(filtered);
+toast(filtered.length?`NOVA5 found ${filtered.length} reliable match${filtered.length===1?'':'es'} for your request.`:"No reliable match found for that request.");
+}
+function setCategory(cat,b){
+selectedCategory=cat;
+document.querySelectorAll('[data-cat]').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+const q=document.getElementById("q").value.trim();
+render(q?getMatches(q):(cat==='All'?products:products.filter(p=>p.category===cat)));
+}
+function explain(){openModal("Why 94% confidence",`<p>NOVA5 combines:</p><ul><li><b>Availability</b> — freshness of stock information</li><li><b>Speed</b> — distance and fulfilment ETA</li><li><b>Accuracy</b> — data freshness and tracking signals</li><li><b>Value</b> — clear, conditional rewards</li><li><b>Retention</b> — successful repeat-order journey</li></ul><p class="muted">Prototype uses synthetic signals. Production would calculate these from real store, order and delivery data.</p>`)}
+function order(index){const p=products[index];openModal("Demo checkout",`<p><b>${p.name}</b> — ₹${p.price}</p><p class="muted">Selected because of ${p.c}% availability confidence, stock freshness, store reliability and ${p.eta} ETA.</p><button class="primary" style="width:100%" onclick="closeModal();toast('Demo order confirmed · accurate tracking started')">Confirm demo order</button>`)}
+function scan(){document.getElementById("scan").textContent="Priorities refreshed";document.getElementById("scan").className="badge good";toast("2 high-priority inventory updates found.")}
+function update(i){inv[i][1]="Low";inv[i][2]="Verified by store";inv[i][3]="Just now";document.getElementById("accuracy").textContent="86%";render();toast(inv[i][0]+" marked as verified.")}
+function openModal(t,b){document.getElementById("mtitle").textContent=t;document.getElementById("mbody").innerHTML=b;document.getElementById("modalbg").style.display="flex"}function closeModal(){document.getElementById("modalbg").style.display="none"}
+render();
+</script>
+</body></html>
